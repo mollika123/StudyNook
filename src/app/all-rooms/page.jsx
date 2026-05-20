@@ -1,6 +1,7 @@
 "use client";
 
 import Image from 'next/image';
+import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import { BsFillPeopleFill } from 'react-icons/bs';
 import { FaLayerGroup } from 'react-icons/fa';
@@ -35,7 +36,7 @@ const AllRoomsPage = () => {
     // Filter by Search Name
     if (search) {
       updatedRooms = updatedRooms.filter(room => 
-        room.name ? room.name.toLowerCase().includes(search.toLowerCase()) : false
+        room.roomName ? room.roomName.toLowerCase().includes(search.toLowerCase()) : false
       );
     }
 
@@ -79,10 +80,16 @@ const AllRoomsPage = () => {
     setMinPrice('');
     maxPrice('');
   };
+  const{_id}=rooms
 
   return (
     <div className="page-container w-11/12 mx-auto py-8">
       {/* Header Section */}
+       {rooms.length === 0 && (
+          <div className="text-center py-24 text-slate-400 border-2 border-dashed border-slate-200 rounded-[2.5rem] text-[20px] font-medium">
+            You haven't added any rooms yet.
+          </div>
+        )}
       <header className="header-section space-y-4">
         <h1 className='text-5xl font-bold text-blue-400'>All Study Rooms</h1>
         <p className='text-xl text-gray-400 font-bold'>Browse the full catalog. Filter by amenity, price, or search by name.</p>
@@ -179,12 +186,12 @@ const AllRoomsPage = () => {
                         ))
                       : typeof room.amenities === 'string'
                       ? room.amenities.split(',').map(amenity => (
-                          <span key={amenity.trim()} className="badge py-2.5 px-3.5">{amenity.trim()}</span>
+                          <span key={amenity.trim()} className="badge py-3 px-4">{amenity.trim()}</span>
                         ))
                       : null
                     }
                   </div>
-                     <button className="view-details-btn bg-blue-500 px-4 py-3 text-white rounded-md" >View Details</button>
+                   <Link href={`/all-rooms/${room._id}`}>  <button className="view-details-btn bg-blue-500 px-4 py-3 text-white rounded-md" >View Details</button></Link>
                 </div>
 
              

@@ -1,6 +1,7 @@
 "use client"
 
 import { FieldError, Input, Label, TextField, Select, ListBox, TextArea, Button, Card } from "@heroui/react";
+import { useRouter } from "next/navigation";
 
 const amenitiesOptions = [
   "Whiteboard",
@@ -11,11 +12,12 @@ const amenitiesOptions = [
   "Air Conditioning",
 ];
 const AddRoomsPage = () => {
+  const router = useRouter();
     const onSubmit = async (e) => {
         e.preventDefault()
         const formData = new FormData(e.currentTarget)
         const rooms = Object.fromEntries(formData.entries())
-
+rooms.amenities = formData.getAll('amenities');
         console.log('rooms',rooms)
 
          const res=await fetch('http://localhost:5000/rooms', {
@@ -26,7 +28,11 @@ const AddRoomsPage = () => {
       body:JSON.stringify(rooms)
    })
     const data = await res.json();
-    console.log(data);
+      console.log(data);
+      
+      if(res.ok){
+        router.push("/");
+      }
   }
 
     
