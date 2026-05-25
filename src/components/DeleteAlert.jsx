@@ -21,7 +21,7 @@ export function DeleteAlert({ room }) {
   };
   return (
     <AlertDialog>
-      <Button className={"text-red-500 rounded-none"} variant="outline">
+      <Button className={"text-red-500 rounded-md  flex justify-center items-center py-4  bg-gray-800 w-full gap-2 font-bold"} variant="outline">
         <TrashBin /> Delete
       </Button>
       <AlertDialog.Backdrop>

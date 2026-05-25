@@ -1,19 +1,34 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
-// import logo from "../assets/tileshop_logo.svg";
+
 import Link from "next/link";
 // import { authClient } from "@/lib/auth-client";
 import NavLink from "./NavLink";
 import { Menu, X } from "lucide-react"; // Iconer jonno 'npm install lucide-react' korun
+import { authClient } from "@/lib/auth-client";
+import { Avatar, Button } from "@heroui/react";
+import { redirect } from 'next/navigation';
 
 const Navbar = () => {
-  // const { data: session, isLoading } = authClient.useSession();
+  const { data: session, isLoading } = authClient.useSession();
   const [isOpen, setIsOpen] = useState(false); // Mobile menu state
 
-  // const user = session?.user;
+  const user = session?.user;
 
   // if (isLoading) return null;
+
+  const handleSignOut = async () => {
+    try {
+    await authClient.signOut();
+  } catch (error) {
+    console.error("Failed backend logout:", error);
+    return; // Handle error gracefully without throwing
+  }
+
+  // CRITICAL: Put the redirect OUTSIDE the try/catch block
+  redirect('/'); 
+};
 
   return (
     <nav className="sticky top-0 z-50   border-b border-gray-100 bg-white/80 backdrop-blur-md shadow-sm">
@@ -41,14 +56,29 @@ const Navbar = () => {
           <NavLink href="/">Home</NavLink>
           <NavLink href="/all-rooms">Rooms</NavLink>
           <NavLink href="/add-rooms">Add Rooms</NavLink>
+          <NavLink href="/my-bookings">My Bookings</NavLink>
+          <NavLink href="/my-listings">My Listings</NavLink>
         
         </div>
 
         {/* Auth Button (Desktop) */}
-        <div className="hidden md:flex md:flex-1 md:justify-end gap-2">
+        <div className="hidden md:flex items-center md:flex-1 md:justify-end gap-2">
         
-         <NavLink href="/login"   className=" rounded-lg bg-indigo-600 py-2 text-white font-bold text-center py-3 px-5">Login</NavLink>
+          {user ? <>
+        <Avatar>
+        <Avatar.Image alt="John Doe" src={user?.image} />
+        <Avatar.Fallback>{user.name.charAt(0)}</Avatar.Fallback>
+      </Avatar>
+
+            
+            <Button onClick={handleSignOut } variant="danger" className={'rounded-none'}>Logout</Button>
+        
+          </>
+            
+            :<>
+           <NavLink href="/login"   className=" rounded-lg bg-indigo-600 py-2 text-white font-bold text-center py-3 px-5">Login</NavLink>
           <NavLink href="/register"   className=" rounded-lg bg-indigo-600 py-3 px-5 text-white font-bold text-center">Register</NavLink>
+          </>}
         </div>
       </div>
 
@@ -60,6 +90,8 @@ const Navbar = () => {
             <Link href="/all-rooms" onClick={() => setIsOpen(false)}>Rooms</Link>
             <Link href="/add-rooms" onClick={() => setIsOpen(false)}>Add Rooms</Link>
            <Link href="/my-profile" onClick={() => setIsOpen(false)}>My Profile</Link>
+           <Link href="/my-bookings" onClick={() => setIsOpen(false)}>My Bookings</Link>
+           <Link href="/my-listings" onClick={() => setIsOpen(false)}>My Listings</Link>
             
             <hr className="border-gray-100" />
             

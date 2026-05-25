@@ -1,5 +1,6 @@
 "use client"
 
+import { useSession } from "@/lib/auth-client";
 import { FieldError, Input, Label, TextField, Select, ListBox, TextArea, Button, Card } from "@heroui/react";
 import { useRouter } from "next/navigation";
 
@@ -12,12 +13,17 @@ const amenitiesOptions = [
   "Air Conditioning",
 ];
 const AddRoomsPage = () => {
+  const { data: session } = useSession();
   const router = useRouter();
     const onSubmit = async (e) => {
         e.preventDefault()
         const formData = new FormData(e.currentTarget)
         const rooms = Object.fromEntries(formData.entries())
-rooms.amenities = formData.getAll('amenities');
+      rooms.amenities = formData.getAll('amenities');
+       rooms.userId = session?.user?.id;
+  rooms.userName = session?.user?.name;
+      rooms.userEmail = session?.user?.email;
+      rooms.createdAt = new Date();
         console.log('rooms',rooms)
 
          const res=await fetch('http://localhost:5000/rooms', {
@@ -31,7 +37,7 @@ rooms.amenities = formData.getAll('amenities');
       console.log(data);
       
       if(res.ok){
-        router.push("/");
+        router.push("/my-listings");
       }
   }
 

@@ -1,6 +1,10 @@
+import BookingCard from '@/components/BookingCard';
+import BookingButton from '@/components/BookingCard';
 import { DeleteAlert } from '@/components/DeleteAlert';
 import { EditModal } from '@/components/EditModal';
+import { auth } from '@/lib/auth';
 import { Card } from '@heroui/react';
+import { headers } from 'next/headers';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
@@ -11,31 +15,69 @@ import { MdEdit } from 'react-icons/md';
 
 const RoomsDetailsPage = async ({ params }) => {
   const { id } = await params
-  const res = await fetch(`http://localhost:5000/rooms/${id}`)
-  const room = await res.json();
-  console.log(room);
-  const { roomName, floor, amenities, capacity, hourlyRate, imageUrl, description } = room;
+    const session = await auth.api.getSession({
+    headers:await headers(),
+    });
+  console.log(session, "session")
+  const res = await fetch(`http://localhost:5000/rooms/${id}`, {
+  cache: "no-store",
+});
+
+if (!res.ok) {
+  throw new Error("Failed to fetch room");
+}
+
+const room = await res.json();
+
+
+  const { roomName, floor, amenities, capacity, hourlyRate, imageUrl, userId, description } = room;
+console.log(room,"room")
+    const user = session?.user;
+  const isOwner = user?.id === room?.userId;
+  console.log(isOwner, "isOwner");
+   const amenitiesArray = Array.isArray(room.amenities)
+            ? room.amenities
+            : typeof room.amenities === 'string'
+            ? room.amenities.split(',').map(a => a.trim())
+            : [];
+  const displayedAmenities = amenitiesArray.slice(0, 3);
+         const remainingCount = amenitiesArray.length - 3;
   return (
     <div className='w-10/12 mx-auto'>
       <div className='grid grid-cols-2 grid-rows-3 gap-2 py-12 '>
         <div className='row-span-3'>
-          <Image src={imageUrl} width={600} height={600} alt={roomName}></Image>
+          <Image src={room?.imageUrl} width={600} height={600} alt={roomName}></Image>
           <div className='p-5'>
             <h1 className='text-3xl font-bold text-blue-500'>{roomName}</h1>
             <p className='text-gray-500'>{description}</p>
             
             <p className='text-3xl text-green-500 font-bold my-6'>Amenities</p>
-             <div className="card-badges ">
-                    {Array.isArray(room.amenities) 
+            <div className="card-badges ">What's included<br></br>
+                 <div className="flex flex-wrap gap-1.5 min-h-[28px]">
+                  {displayedAmenities.map((amenity, idx) => (
+                    <span 
+                      key={idx} 
+                      className="bg-blue-50 text-blue-600 text-xs font-medium py-1 px-2.5 rounded-md"
+                    >
+                      {amenity}
+                    </span>
+                  ))}
+                  {remainingCount > 0 && (
+                    <span className="bg-gray-100 text-gray-600 text-xs font-semibold py-1 px-2.5 rounded-md">
+                      +{remainingCount} more
+                    </span>
+                  )}
+                </div>
+                    {/* {Array.isArray(room.amenities) 
                       ? room.amenities.map(amenity => (
-                          <span key={(amenity)} className="badge ">{amenity}</span>
+                          <span key={(amenity)} className="badge  ">{amenity}</span>
                         ))
                       : typeof room.amenities === 'string'
                       ? room.amenities.split(',').map(amenity => (
-                          <span key={amenity.trim()} className="badge py-2.5 px-3.5">{amenity.trim()}</span>
+                          <span key={amenity.trim()} className="badge py-2.5 px-3.5 mt-4 grid">{amenity.trim()}</span>
                         ))
                       : null
-                    }
+                    } */}
                   </div>
           </div>
        </div>
@@ -53,15 +95,39 @@ const RoomsDetailsPage = async ({ params }) => {
                                  <span>📅{room.bookingsCount || '0'} bookings</span>
                               </div>
           </div>
-          
-          <Link href={`/`}><button className='w-full rounded-full  py-3  bg-blue-500 text-white'>Book Now</button></Link>
 
-          <div className='grid grid-cols-2 gap-3 mt-7'>
-            <EditModal room={room}></EditModal>
-           <DeleteAlert room={room}></DeleteAlert>
-            {/* <Link href={`/`}><button className=' rounded-md  flex justify-center items-center py-3  bg-gray-800 w-full gap-2 font-bold text-red-600'><FaRegTrashCan/>Delete</button></Link> */}
-
+          <div>
+            <BookingCard room={room}></BookingCard>
           </div>
+         
+          <div>
+            {isOwner && (
+                <aside className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm ring-1 ring-stone-900/5">
+                <div className="border-b border-rose-100/60 bg-gradient-to-br from-rose-50/80 via-white to-stone-50 px-6 py-5">
+                  <p className="text-xs font-semibold uppercase tracking-wide font-bold text-blue-600">
+                    Listed By
+                  </p>
+                  <div className='flex justify-center items-center'>
+                    <Image src={user?.image} alt="Created By" width={200} height={200}></Image>
+                    <div><p>{user?.name }</p>
+                      <h1>{user?.email }</h1></div>
+                </div>
+                </div>
+
+                <div className="flex flex-col gap-3 p-6">
+                  <div className="w-full">
+                    <EditModal room={room} />
+                  </div>
+                  <div className="w-full">
+                    <DeleteAlert room={room} />
+                  </div>
+                </div>
+              </aside>
+            )}
+          </div>
+          {/* <Link href={`/`}><button className='w-full rounded-full  py-3  bg-blue-500 text-white'>Book Now</button></Link> */}
+
+         
           
 
         </Card>
