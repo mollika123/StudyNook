@@ -59,8 +59,8 @@ console.log(room,"room")
             <p className='text-gray-500'>{description}</p>
             
             <p className='text-3xl text-green-500 font-bold my-6'>Amenities</p>
-            <div className="card-badges ">What's included<br></br>
-                 <div className="flex flex-wrap gap-1.5 min-h-[28px]">
+            <div className="card-badges mb-4">What's included<br></br>
+                 <div className="flex flex-wrap gap-1.5 min-h-[28px] mt-4">
                   {displayedAmenities.map((amenity, idx) => (
                     <span 
                       key={idx} 
