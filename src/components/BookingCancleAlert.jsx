@@ -1,19 +1,39 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 import { TrashBin } from "@gravity-ui/icons";
 import {AlertDialog, Button} from "@heroui/react";
+import { router } from "better-auth/api";
+import { useRouter } from "next/router";
+import toast from "react-hot-toast";
 
 export function BookingCancelAlert({ bookingId }) {
   console.log(bookingId);
-  const handleCancelBooking = async() => {
+
+
+  const handleCancelBooking = async () => {
+      const{data:tokenData}=await authClient.token()
     const res = await fetch(`http://localhost:5000/booking/${bookingId}`,{
       method:'DELETE',
       headers:{
-      'content-type':'application/json'
+        'content-type': 'application/json',
+         authorization:`Bearer ${tokenData?.token}`
       }
+        
     })
     const data = await res.json()
-    window.location.reload()
+    window.location.reload();
+      // if (res.ok) {
+      //   toast.success("Booking cancelled");
+      //   close();
+      //   router.refresh();
+      // } else {
+      //   toast.error(data.message || "Failed to cancel booking");
+      // }
+
+   
+   
+
   }
   return (
     <AlertDialog>

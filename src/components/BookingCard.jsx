@@ -87,12 +87,13 @@ const handleBooking = async (e) => {
     };
     
     console.log("Submitting Booking Data:", bookingData);
-
+const{data:tokenData}=await authClient.token()
     try {
       const res = await fetch('http://localhost:5000/booking', {
         method: "POST",
         headers: {
-          'content-type': 'application/json'
+          'content-type': 'application/json',
+          authorization:`Bearer ${tokenData?.token}`
         },
         body: JSON.stringify(bookingData)
       });
@@ -106,7 +107,7 @@ const handleBooking = async (e) => {
       }
 
       if (res.ok) {
-        toast.success('You booked successfully!');
+        toast.success('Room booked successfully!');
         setNote(""); // বুকিং শেষ হলে নোট ফিল্ড ক্লিয়ার হবে
         
         // মোডালটি অটো-ক্লোজ করার জন্য উইন্ডো রিফ্রেশ করতে পারেন:

@@ -15,12 +15,19 @@ import { MdEdit } from 'react-icons/md';
 
 const RoomsDetailsPage = async ({ params }) => {
   const { id } = await params
+  const {token} = await auth.api.getToken({
+    headers:await headers()
+  })
+  console.log(token);
     const session = await auth.api.getSession({
     headers:await headers(),
     });
   console.log(session, "session")
   const res = await fetch(`http://localhost:5000/rooms/${id}`, {
-  cache: "no-store",
+  
+    headers: {
+      authorization:`Bearer ${token}`
+    }
 });
 
 if (!res.ok) {

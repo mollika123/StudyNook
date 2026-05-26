@@ -1,5 +1,6 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 import { Envelope } from "@gravity-ui/icons";
 import {
   Button,
@@ -28,14 +29,15 @@ export function EditModal({ room }) {
         e.preventDefault()
         const formData = new FormData(e.currentTarget)
         const rooms = Object.fromEntries(formData.entries())
-
+rooms.amenities = formData.getAll('amenities');
         console.log('rooms',rooms)
 
-   
+   const{data:tokenData}=await authClient.token()
          const res=await fetch(`http://localhost:5000/rooms/${_id}`, {
       method: 'PATCH',
       headers: {
-        'content-type':'application/json'
+        'content-type': 'application/json',
+        authorization:`Bearer ${tokenData?.token}`
       },
       body:JSON.stringify(rooms)
    })

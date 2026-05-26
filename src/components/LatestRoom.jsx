@@ -52,7 +52,7 @@ const LatestRooms = () => {
               {/* ইউনিফর্ম সাইজের ইমেজ সেকশন */}
               <figure className="h-60 relative w-full flex-shrink-0">
                 <Image 
-                  src={room.imageUrl || 'https://via.placeholder.com/300x200'} 
+                  src={room.imageUrl || 'https://c8.alamy.com/comp/2J9DWR7/the-beautiful-book-covered-walls-of-the-library-room-at-the-1926-medieval-style-hammond-castle-built-by-john-hays-hammond-jr-gloucester-massachusett-2J9DWR7.jpg'} 
                   alt={room.roomName || 'Study Room'} 
                   fill 
                   className="object-cover"

@@ -20,5 +20,6 @@ export const config = {
     "/my-listings",
     "/add-rooms",
     "/my-profile",
+    '/all-rooms/:path'
    ], // Specify the routes the middleware applies to
 };
