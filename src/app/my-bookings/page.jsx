@@ -6,15 +6,25 @@ import { headers } from 'next/headers';
 import Image from 'next/image';
 import React from 'react';
 
-
+export const metadata = {
+  title: "My Booking",
+ 
+};
 
 const MyBookingPage = async () => {
+   const {token} = await auth.api.getToken({
+      headers:await headers()
+    })
   const session = await auth.api.getSession({
     headers:await headers()
   })
   console.log(session);
   const user=session?.user
-  const res = await fetch(`http://localhost:5000/booking/${user?.id}`)
+  const res = await fetch(`http://localhost:5000/booking/${user?.id}`, {
+     headers: {
+          authorization:`Bearer ${token}`
+        }
+  })
   const bookings = await res.json()
   console.log(bookings, "bookings");
   // const{ totalCost,startTime, date,endTime,roomName,roomImage}=bookings

@@ -1,6 +1,6 @@
 "use client"
 
-import { useSession } from "@/lib/auth-client";
+import { authClient, useSession } from "@/lib/auth-client";
 import { FieldError, Input, Label, TextField, Select, ListBox, TextArea, Button, Card } from "@heroui/react";
 import { useRouter } from "next/navigation";
 
@@ -25,11 +25,12 @@ const AddRoomsPage = () => {
       rooms.userEmail = session?.user?.email;
       rooms.createdAt = new Date();
         console.log('rooms',rooms)
-
-         const res=await fetch('http://localhost:5000/rooms', {
+const{data:tokenData}=await authClient.token()
+         const res=await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/rooms`, {
       method: 'POST',
       headers: {
-        'content-type':'application/json'
+        'content-type': 'application/json',
+        authorization:`Bearer ${tokenData?.token}`
       },
       body:JSON.stringify(rooms)
    })

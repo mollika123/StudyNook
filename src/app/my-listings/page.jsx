@@ -39,7 +39,7 @@ const MyListingsPage = async () => {
   
 
   const res = await fetch(
-    `http://localhost:5000/my-listings/${userId}`,
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/my-listings/${userId}`,
     {
   
       headers: {

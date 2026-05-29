@@ -5,7 +5,10 @@ import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import { BsFillPeopleFill } from 'react-icons/bs';
 import { FaLayerGroup } from 'react-icons/fa';
+export const metadata = {
+  title: "Latest Room",
 
+};
 const LatestRooms = () => {
   const [latestRooms, setLatestRooms] = useState([]);
 
@@ -13,7 +16,7 @@ const LatestRooms = () => {
     const fetchLatestRooms = async () => {
       try {
         // ব্যাকএন্ডের নতুন তৈরি করা '/latest-rooms' এপিআই কল করা হয়েছে
-        const res = await fetch('http://localhost:5000/latest-rooms');
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/latest-rooms`);
         const data = await res.json();
         setLatestRooms(data);
       } catch (err) {
