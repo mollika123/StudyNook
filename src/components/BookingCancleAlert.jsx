@@ -16,7 +16,7 @@ export function BookingCancelAlert({ bookingId }) {
     const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/booking/${bookingId}`,{
       method:'DELETE',
       headers:{
-        'content-type': 'application/json',
+
          authorization:`Bearer ${tokenData?.token}`
       }
         
