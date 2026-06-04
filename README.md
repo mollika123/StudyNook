@@ -61,6 +61,11 @@ The API must expose:
 - `PUT /rooms/:id` (protected) – edit listing
 - `DELETE /rooms/:id` (protected) – delete listing
 
+### 3.
+Environment Variables Create a file in the directory and add your configurations:.envbackend
+
+DATABASE_URL=your_database_connection_string
+JWT_SECRET=your_jwt_secret_key
 ### 4. Run the Next.js frontend
 
 ```bash
