@@ -6,12 +6,7 @@ Finding a quiet, distraction‑free place to work or study is harder than it sho
 
 StudyNook connects people who need **short‑term, focused work sessions** with hosts who have calm, underutilised spaces — from private study nooks to quiet meeting rooms. It removes the friction of discovery, booking, and payment by providing a simple marketplace tailored for deep work.
 
-## Who is it for?
 
-- **Students & remote workers** – need a quiet spot for a few hours, with predictable amenities (power, Wi‑Fi, natural light, whiteboards).
-- **Freelancers & digital nomads** – want variety without monthly co‑working memberships.
-- **Hosts (homeowners, small businesses, libraries, churches)** – have spare rooms or quiet hours and want to earn extra income with minimal management.
-- **Teams & study groups** – require bookable rooms with capacity and equipment (projector, desks, silent zones).
 
 ## Tech Stack
 
