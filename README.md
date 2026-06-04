@@ -43,10 +43,7 @@ StudyNook connects people who need **short‑term, focused work sessions** with 
 git clone <repository-url>
 cd studynook
 npm install
-```
 
-
-```
 
 ### 2. Start the Express backend
 
