@@ -28,6 +28,21 @@ StudyNook connects people who need **short‑term, focused work sessions** with 
 | Compiler | React Compiler (`babel-plugin-react-compiler`) |
 | API base URL | `NEXT_PUBLIC_SERVER_URL` (Express server) |
 
+Project Structure
+├── backend/
+│   ├── config/         # Database and server configurations
+│   ├── controllers/    # Request handlers & business logic
+│   ├── models/         # Database schemas
+│   ├── routes/         # API endpoints
+│   └── server.js       # Entry point
+├── frontend/
+│   ├── public/         # Static assets
+│   ├── src/
+│   │   ├── components/ # Reusable UI components
+│   │   ├── pages/      # Views/Pages (Home, Dashboard, Catalog)
+│   │   ├── context/    # State management
+│   │   └── App.js      # Main application component
+└── README.md
 ## How to run it (quick start)
 
 ### Prerequisites
