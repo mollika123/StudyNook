@@ -41,25 +41,14 @@ StudyNook connects people who need **short‑term, focused work sessions** with 
 
 ```bash
 git clone <repository-url>
-cd quietHub-where-deep-focus-begins
+cd studynook
 npm install
 ```
 
-### 2. Configure environment
 
-Create a `.env.local` file:
-
-```env
-MONGO_URI=mongodb://127.0.0.1:27017/quiethub
-BETTER_AUTH_URL=http://localhost:3000
-BETTER_AUTH_SECRET=your-long-random-secret
-NEXT_PUBLIC_SERVER_URL=http://localhost:5000/api   # Express API base URL
-# Optional for Google OAuth:
-GOOGLE_CLIENT_ID=...
-GOOGLE_CLIENT_SECRET=...
 ```
 
-### 3. Start the Express backend
+### 2. Start the Express backend
 
 Make sure your Express API (with JWT middleware) is running on the URL you set in `NEXT_PUBLIC_SERVER_URL`.  
 The API must expose:
